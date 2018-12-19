@@ -1,68 +1,78 @@
 import React from 'react'
 import './App.css'
-import axios from 'axios'
+import underscore from '../node_modules/underscore/dist/css/underscore.min.css'
 
-// Should be presentational component
-const Card = (props) => {
+const Stars = (props) => {
+  const numberOfStars = Math.floor(Math.random() * 9)
+ 
+  let stars = [];
+  for (let i = 0; i < numberOfStars; i++) {
+    stars.push(<i className="fa fa-star"></i>)
+  }
+
   return (
-    <div style={{margin: '1em'}}>
-      <img width="75" alt="" src={props.avatar_url} />
-      <div style={{display: 'inline-block', marginLeft:10}}>
-        <div style={{fontSize: '1.25em', fontWeight:'bold'}}>{props.name}</div>
-        <div>{props.company}</div>
+    <div className="col-5">
+      {stars}
+    </div>
+  )
+
+}
+
+const Button = (props) => {
+  return (
+    <div className="col-2">
+      <button>=</button>
+    </div>
+  )
+}
+
+const Answer = (props) => {
+  return (
+    <div className="col-5">
+      <span>8</span>
+    </div>
+  )
+}
+
+const Numbers = (props) => {
+  const arrayOfNumbers = [1,2,3,4,5,6,7,8,9]
+
+  return (
+    <div className="card text-center">
+      <div>
+        {arrayOfNumbers.map((number, i) =>
+            <span key={i}>{number}</span>
+          )}
       </div>
     </div>
   )
 }
 
-const CardList = (props)=> {
-  return (
-    <div>
-      {props.cards.map(card => <Card {...card}/>)}
-    </div>
-  )
-}
+Numbers.list = (1,2,3,4,5,6,7,8,9)
 
-class Form extends React.Component {
-  state = {userName: ''}
-  handleSubmit = (event) => {
-    // This will remember the last code you executed.
-    event.preventDefault();
-    console.log("Event: Form Submit", this.state.userName)
-    // ajax... (fetch or axios)
-    axios.get(`https://api.github.com/users/${this.state.userName}`)
-    .then(resp => {
-      this.props.onSubmit(resp.data)
-      this.setState({userName: ''})
-    })
-  }
+class Game extends React.Component {
   render() {
-    return(
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" 
-        value={this.state.userName}
-        onChange={(event) => this.setState({userName: event.target.value})}
-        placeholder="GitHub Username" required/>
-        <button type="submit">Add Card</button>
-      </form>
+    return (
+      <div className="container">
+        <h3>Play Nine</h3>
+        <hr></hr>
+        <div className="row">
+          <Stars />
+          <Button />
+          <Answer />
+        </div>
+        <br />
+        <Numbers />
+      </div>
     )
   }
 }
 
 class App extends React.Component {
-  state = {
-    cards: []
-  }
-  addNewCard = (cardInfo) => {
-  	this.setState(prevState => ({
-      cards: prevState.cards.concat(cardInfo)
-    }))
-  }
-  render(){
-    return(
+  render() {
+    return (
       <div>
-        <Form onSubmit={this.addNewCard}/>
-        <CardList cards={this.state.cards}/>
+        <Game />
       </div>
     )
   }
