@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import underscore from '../node_modules/underscore/dist/css/underscore.min.css'
+
 
 ReactDOM.render(App, document.getElementById('root'));
 

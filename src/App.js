@@ -1,18 +1,14 @@
 import React from 'react'
 import './App.css'
-import underscore from '../node_modules/underscore/dist/css/underscore.min.css'
+import _ from 'lodash'
 
 const Stars = (props) => {
   const numberOfStars = Math.floor(Math.random() * 9)
- 
-  let stars = [];
-  for (let i = 0; i < numberOfStars; i++) {
-    stars.push(<i className="fa fa-star"></i>)
-  }
-
   return (
     <div className="col-5">
-      {stars}
+      {_.range(numberOfStars).map(i =>
+        <i key={i} className="fa fa-star"></i>
+      )}
     </div>
   )
 
@@ -29,28 +25,36 @@ const Button = (props) => {
 const Answer = (props) => {
   return (
     <div className="col-5">
-      <span>8</span>
+      {props.selectedNumbers.map((number, i) => 
+        <span key={i}>{number}</span>
+      )}
     </div>
   )
 }
 
 const Numbers = (props) => {
-  const arrayOfNumbers = [1,2,3,4,5,6,7,8,9]
-
+	const numberClassName = (number) => {
+		if (props.selectedNumbers.indexOf(number) >= 0) {
+      return 'selected'
+    }  	
+  }
   return (
     <div className="card text-center">
       <div>
-        {arrayOfNumbers.map((number, i) =>
-            <span key={i}>{number}</span>
-          )}
+        {Numbers.list.map((number, i) =>
+          <span key={i} className={numberClassName(number)}>{number}</span>
+        )}
       </div>
     </div>
   )
 }
 
-Numbers.list = (1,2,3,4,5,6,7,8,9)
+Numbers.list = _.range(1, 10)
 
 class Game extends React.Component {
+  state = {
+    selectedNumbers: []
+  }
   render() {
     return (
       <div className="container">
@@ -59,10 +63,10 @@ class Game extends React.Component {
         <div className="row">
           <Stars />
           <Button />
-          <Answer />
+          <Answer selectedNumbers={this.state.selectedNumbers}/>
         </div>
         <br />
-        <Numbers />
+        <Numbers selectedNumbers={this.state.selectedNumbers}/>
       </div>
     )
   }
