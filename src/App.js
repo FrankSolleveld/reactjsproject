@@ -1,44 +1,27 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import './App.css'
+// import { ReactComponent } from '*.svg';
 
-
-class Button extends React.Component {
-  render() {
-    return (
-      <button 
-        onClick={()=>this.props.onClickFunction(this.props.incrementValue)}>
-        +{this.props.incrementValue}
-      </button>
-    ) 
-  }
-}
-
-const Result = (props)=>{
+// Should be presentational component
+const Card = (props) => {
   return (
-    <div>{props.counter}</div>
-  );
-}
-
-class App extends Component {
-  state = { counter: 0 }
-
-  incrementCounter = (incrementValue) => {
-      this.setState((prevState) => ({
-        counter: prevState.counter + incrementValue
-      }))
-  }
-  render() {
-    return (
-      <div>
-        <Button incrementValue={1} onClickFunction={this.incrementCounter} />
-        <Button incrementValue={5} onClickFunction={this.incrementCounter} />
-        <Button incrementValue={10} onClickFunction={this.incrementCounter} />
-        <Button incrementValue={100} onClickFunction={this.incrementCounter} />
-        <Result counter={this.state.counter}/>
+    <div style={{margin: '1em'}}>
+      <img width="75" alt="" src={props.avatar_url} />
+      <div style={{display: 'inline-block', marginLeft:10}}>
+        <div style={{fontSize: '1.25em', fontWeight:'bold'}}>{props.name}</div>
+        <div>{props.company}</div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default App
- 
+const CardList = (props)=> {
+  return (
+    <div>
+      {props.cards.map(card => <Card {...card}/>)}
+    </div>
+  )
+}
+
+export default CardList
